@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PetSuppliesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="80" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="80" />
+          <Property Name="Status" Type="nvarchar" MaxLength="2" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" />
+          <Property Name="Addr1" Type="nvarchar" MaxLength="80" />
+          <Property Name="Addr2" Type="nvarchar" MaxLength="80" />
+          <Property Name="City" Type="nvarchar" MaxLength="80" />
+          <Property Name="State" Type="nvarchar" MaxLength="2" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="20" />
+          <Property Name="Country" Type="nvarchar" MaxLength="20" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreditCard" Type="nvarchar" MaxLength="80" />
+          <Property Name="ExprDate" Type="nvarchar" MaxLength="7" />
+          <Property Name="CardType" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="InvItem">
+          <Key>
+            <PropertyRef Name="InvItemId" />
+          </Key>
+          <Property Name="InvItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvId" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvId" />
+          </Key>
+          <Property Name="InvId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustId" Type="int" Nullable="false" />
+          <Property Name="InvDate" Type="datetime" />
+          <Property Name="Status" Type="nvarchar" MaxLength="2" />
+          <Property Name="ShipAddr1" Type="nvarchar" MaxLength="80" />
+          <Property Name="ShipAddr2" Type="nvarchar" MaxLength="80" />
+          <Property Name="ShipCity" Type="nvarchar" MaxLength="80" />
+          <Property Name="ShipState" Type="nvarchar" MaxLength="2" />
+          <Property Name="ShipZip" Type="nvarchar" MaxLength="20" />
+          <Property Name="ShipCountry" Type="nvarchar" MaxLength="20" />
+          <Property Name="ShipPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="BillAddr1" Type="nvarchar" MaxLength="80" />
+          <Property Name="BillAddr2" Type="nvarchar" MaxLength="80" />
+          <Property Name="BillCity" Type="nvarchar" MaxLength="80" />
+          <Property Name="BillState" Type="nvarchar" MaxLength="2" />
+          <Property Name="BillZip" Type="nvarchar" MaxLength="20" />
+          <Property Name="BillCountry" Type="nvarchar" MaxLength="20" />
+          <Property Name="BillPhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="CreditCard" Type="nvarchar" MaxLength="80" />
+          <Property Name="ExprDate" Type="nvarchar" MaxLength="7" />
+          <Property Name="CardType" Type="nvarchar" MaxLength="10" />
+          <Property Name="Courier" Type="nvarchar" MaxLength="80" />
+          <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="80" />
+          <Property Name="Category" Type="nvarchar" MaxLength="10" />
+          <Property Name="Status" Type="nvarchar" MaxLength="2" />
+          <Property Name="Desc" Type="nvarchar" MaxLength="255" />
+          <Property Name="ListPrice" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="UnitCost" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <Association Name="FK_InvItem_ToInvoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvId" />
+            </Principal>
+            <Dependent Role="InvItem">
+              <PropertyRef Name="InvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvItem_ToProduct">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InvItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoice_ToCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PetSuppliesModelStoreContainer">
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvItem" EntityType="Self.InvItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_InvItem_ToInvoice" Association="Self.FK_InvItem_ToInvoice">
+            <End Role="Invoice" EntitySet="Invoice" />
+            <End Role="InvItem" EntitySet="InvItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvItem_ToProduct" Association="Self.FK_InvItem_ToProduct">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="InvItem" EntitySet="InvItem" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoice_ToCustomer" Association="Self.FK_Invoice_ToCustomer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Invoice" EntitySet="Invoice" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PetSuppliesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustId" />
+          </Key>
+          <Property Name="CustId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Addr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Addr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreditCard" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ExprDate" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="CardType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoice_ToCustomer" FromRole="Customer" ToRole="Invoice" />
+        </EntityType>
+        <EntityType Name="InvItem">
+          <Key>
+            <PropertyRef Name="InvItemId" />
+          </Key>
+          <Property Name="InvItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvId" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK_InvItem_ToInvoice" FromRole="InvItem" ToRole="Invoice" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_InvItem_ToProduct" FromRole="InvItem" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvId" />
+          </Key>
+          <Property Name="InvId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustId" Type="Int32" Nullable="false" />
+          <Property Name="InvDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ShipAddr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ShipAddr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ShipCity" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ShipState" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="ShipZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ShipCountry" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ShipPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BillAddr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="BillAddr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="BillCity" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="BillState" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="BillZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BillCountry" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="BillPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CreditCard" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ExprDate" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+          <Property Name="CardType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Courier" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Invoice_ToCustomer" FromRole="Invoice" ToRole="Customer" />
+          <NavigationProperty Name="InvItems" Relationship="Self.FK_InvItem_ToInvoice" FromRole="Invoice" ToRole="InvItem" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="Desc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ListPrice" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="UnitCost" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="InvItems" Relationship="Self.FK_InvItem_ToProduct" FromRole="Product" ToRole="InvItem" />
+        </EntityType>
+        <Association Name="FK_Invoice_ToCustomer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustId" />
+            </Principal>
+            <Dependent Role="Invoice">
+              <PropertyRef Name="CustId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvItem_ToInvoice">
+          <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+          <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoice">
+              <PropertyRef Name="InvId" />
+            </Principal>
+            <Dependent Role="InvItem">
+              <PropertyRef Name="InvId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvItem_ToProduct">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ProductId" />
+            </Principal>
+            <Dependent Role="InvItem">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PetSuppliesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="InvItems" EntityType="Self.InvItem" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <AssociationSet Name="FK_Invoice_ToCustomer" Association="Self.FK_Invoice_ToCustomer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Invoice" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvItem_ToInvoice" Association="Self.FK_InvItem_ToInvoice">
+            <End Role="Invoice" EntitySet="Invoices" />
+            <End Role="InvItem" EntitySet="InvItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvItem_ToProduct" Association="Self.FK_InvItem_ToProduct">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="InvItem" EntitySet="InvItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PetSuppliesModelStoreContainer" CdmEntityContainer="PetSuppliesEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="PetSuppliesModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Addr1" ColumnName="Addr1" />
+                <ScalarProperty Name="Addr2" ColumnName="Addr2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="CreditCard" ColumnName="CreditCard" />
+                <ScalarProperty Name="ExprDate" ColumnName="ExprDate" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvItems">
+            <EntityTypeMapping TypeName="PetSuppliesModel.InvItem">
+              <MappingFragment StoreEntitySet="InvItem">
+                <ScalarProperty Name="InvItemId" ColumnName="InvItemId" />
+                <ScalarProperty Name="InvId" ColumnName="InvId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="PetSuppliesModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoice">
+                <ScalarProperty Name="InvId" ColumnName="InvId" />
+                <ScalarProperty Name="CustId" ColumnName="CustId" />
+                <ScalarProperty Name="InvDate" ColumnName="InvDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ShipAddr1" ColumnName="ShipAddr1" />
+                <ScalarProperty Name="ShipAddr2" ColumnName="ShipAddr2" />
+                <ScalarProperty Name="ShipCity" ColumnName="ShipCity" />
+                <ScalarProperty Name="ShipState" ColumnName="ShipState" />
+                <ScalarProperty Name="ShipZip" ColumnName="ShipZip" />
+                <ScalarProperty Name="ShipCountry" ColumnName="ShipCountry" />
+                <ScalarProperty Name="ShipPhone" ColumnName="ShipPhone" />
+                <ScalarProperty Name="BillAddr1" ColumnName="BillAddr1" />
+                <ScalarProperty Name="BillAddr2" ColumnName="BillAddr2" />
+                <ScalarProperty Name="BillCity" ColumnName="BillCity" />
+                <ScalarProperty Name="BillState" ColumnName="BillState" />
+                <ScalarProperty Name="BillZip" ColumnName="BillZip" />
+                <ScalarProperty Name="BillCountry" ColumnName="BillCountry" />
+                <ScalarProperty Name="BillPhone" ColumnName="BillPhone" />
+                <ScalarProperty Name="CreditCard" ColumnName="CreditCard" />
+                <ScalarProperty Name="ExprDate" ColumnName="ExprDate" />
+                <ScalarProperty Name="CardType" ColumnName="CardType" />
+                <ScalarProperty Name="Courier" ColumnName="Courier" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="PetSuppliesModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Desc" ColumnName="Desc" />
+                <ScalarProperty Name="ListPrice" ColumnName="ListPrice" />
+                <ScalarProperty Name="UnitCost" ColumnName="UnitCost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
