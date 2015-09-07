@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PetSuppliesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustId" />
+    </Key>
+    <Property Name="CustId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="80" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="80" />
+    <Property Name="Status" Type="nvarchar" MaxLength="2" />
+    <Property Name="Email" Type="nvarchar" MaxLength="100" />
+    <Property Name="Addr1" Type="nvarchar" MaxLength="80" />
+    <Property Name="Addr2" Type="nvarchar" MaxLength="80" />
+    <Property Name="City" Type="nvarchar" MaxLength="80" />
+    <Property Name="State" Type="nvarchar" MaxLength="2" />
+    <Property Name="Zip" Type="nvarchar" MaxLength="20" />
+    <Property Name="Country" Type="nvarchar" MaxLength="20" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+    <Property Name="CreditCard" Type="nvarchar" MaxLength="80" />
+    <Property Name="ExprDate" Type="nvarchar" MaxLength="7" />
+    <Property Name="CardType" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="InvItem">
+    <Key>
+      <PropertyRef Name="InvItemId" />
+    </Key>
+    <Property Name="InvItemId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvId" Type="int" Nullable="false" />
+    <Property Name="ProductId" Type="int" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitPrice" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Invoice">
+    <Key>
+      <PropertyRef Name="InvId" />
+    </Key>
+    <Property Name="InvId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustId" Type="int" Nullable="false" />
+    <Property Name="InvDate" Type="datetime" />
+    <Property Name="Status" Type="nvarchar" MaxLength="2" />
+    <Property Name="ShipAddr1" Type="nvarchar" MaxLength="80" />
+    <Property Name="ShipAddr2" Type="nvarchar" MaxLength="80" />
+    <Property Name="ShipCity" Type="nvarchar" MaxLength="80" />
+    <Property Name="ShipState" Type="nvarchar" MaxLength="2" />
+    <Property Name="ShipZip" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShipCountry" Type="nvarchar" MaxLength="20" />
+    <Property Name="ShipPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="BillAddr1" Type="nvarchar" MaxLength="80" />
+    <Property Name="BillAddr2" Type="nvarchar" MaxLength="80" />
+    <Property Name="BillCity" Type="nvarchar" MaxLength="80" />
+    <Property Name="BillState" Type="nvarchar" MaxLength="2" />
+    <Property Name="BillZip" Type="nvarchar" MaxLength="20" />
+    <Property Name="BillCountry" Type="nvarchar" MaxLength="20" />
+    <Property Name="BillPhone" Type="nvarchar" MaxLength="20" />
+    <Property Name="CreditCard" Type="nvarchar" MaxLength="80" />
+    <Property Name="ExprDate" Type="nvarchar" MaxLength="7" />
+    <Property Name="CardType" Type="nvarchar" MaxLength="10" />
+    <Property Name="Courier" Type="nvarchar" MaxLength="80" />
+    <Property Name="TotalPrice" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="80" />
+    <Property Name="Category" Type="nvarchar" MaxLength="10" />
+    <Property Name="Status" Type="nvarchar" MaxLength="2" />
+    <Property Name="Desc" Type="nvarchar" MaxLength="255" />
+    <Property Name="ListPrice" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="UnitCost" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <Association Name="FK_InvItem_ToInvoice">
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+    <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Invoice">
+        <PropertyRef Name="InvId" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="InvId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvItem_ToProduct">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Invoice_ToCustomer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustId" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="CustId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PetSuppliesModelStoreContainer">
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="InvItem" EntityType="Self.InvItem" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Invoice" EntityType="Self.Invoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_InvItem_ToInvoice" Association="Self.FK_InvItem_ToInvoice">
+      <End Role="Invoice" EntitySet="Invoice" />
+      <End Role="InvItem" EntitySet="InvItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvItem_ToProduct" Association="Self.FK_InvItem_ToProduct">
+      <End Role="Product" EntitySet="Product" />
+      <End Role="InvItem" EntitySet="InvItem" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Invoice_ToCustomer" Association="Self.FK_Invoice_ToCustomer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Invoice" EntitySet="Invoice" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

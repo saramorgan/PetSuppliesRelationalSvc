@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PetSuppliesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="CustId" />
+    </Key>
+    <Property Name="CustId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Addr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Addr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="Zip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreditCard" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="ExprDate" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+    <Property Name="CardType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoice_ToCustomer" FromRole="Customer" ToRole="Invoice" />
+  </EntityType>
+  <EntityType Name="InvItem">
+    <Key>
+      <PropertyRef Name="InvItemId" />
+    </Key>
+    <Property Name="InvItemId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="UnitPrice" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Invoice" Relationship="Self.FK_InvItem_ToInvoice" FromRole="InvItem" ToRole="Invoice" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_InvItem_ToProduct" FromRole="InvItem" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Invoice">
+    <Key>
+      <PropertyRef Name="InvId" />
+    </Key>
+    <Property Name="InvId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustId" Type="Int32" Nullable="false" />
+    <Property Name="InvDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="ShipAddr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="ShipAddr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="ShipCity" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="ShipState" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="ShipZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ShipCountry" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="ShipPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BillAddr1" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="BillAddr2" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="BillCity" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="BillState" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="BillZip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BillCountry" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="BillPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="CreditCard" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="ExprDate" Type="String" MaxLength="7" FixedLength="false" Unicode="true" />
+    <Property Name="CardType" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Courier" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="TotalPrice" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="Customer" Relationship="Self.FK_Invoice_ToCustomer" FromRole="Invoice" ToRole="Customer" />
+    <NavigationProperty Name="InvItems" Relationship="Self.FK_InvItem_ToInvoice" FromRole="Invoice" ToRole="InvItem" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="ProductId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Category" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="Desc" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="ListPrice" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="UnitCost" Type="Decimal" Precision="10" Scale="2" />
+    <NavigationProperty Name="InvItems" Relationship="Self.FK_InvItem_ToProduct" FromRole="Product" ToRole="InvItem" />
+  </EntityType>
+  <Association Name="FK_Invoice_ToCustomer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustId" />
+      </Principal>
+      <Dependent Role="Invoice">
+        <PropertyRef Name="CustId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvItem_ToInvoice">
+    <End Role="Invoice" Type="Self.Invoice" Multiplicity="1" />
+    <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Invoice">
+        <PropertyRef Name="InvId" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="InvId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_InvItem_ToProduct">
+    <End Role="Product" Type="Self.Product" Multiplicity="1" />
+    <End Role="InvItem" Type="Self.InvItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="ProductId" />
+      </Principal>
+      <Dependent Role="InvItem">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="PetSuppliesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="InvItems" EntityType="Self.InvItem" />
+    <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+    <EntitySet Name="Products" EntityType="Self.Product" />
+    <AssociationSet Name="FK_Invoice_ToCustomer" Association="Self.FK_Invoice_ToCustomer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Invoice" EntitySet="Invoices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvItem_ToInvoice" Association="Self.FK_InvItem_ToInvoice">
+      <End Role="Invoice" EntitySet="Invoices" />
+      <End Role="InvItem" EntitySet="InvItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_InvItem_ToProduct" Association="Self.FK_InvItem_ToProduct">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="InvItem" EntitySet="InvItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
