@@ -1,0 +1,174 @@
+USE [PetSupplies]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Customer](
+	[CustId] [int] IDENTITY(1,1) NOT NULL,
+	[FirstName] [nvarchar](80) NULL,
+	[LastName] [nvarchar](80) NULL,
+	[Status] [nvarchar](2) NULL,
+	[Email] [nvarchar](100) NULL,
+	[Addr1] [nvarchar](80) NULL,
+	[Addr2] [nvarchar](80) NULL,
+	[City] [nvarchar](80) NULL,
+	[State] [nvarchar](2) NULL,
+	[Zip] [nvarchar](20) NULL,
+	[Country] [nvarchar](20) NULL,
+	[Phone] [nvarchar](20) NULL,
+	[CreditCard] [nvarchar](80) NULL,
+	[ExprDate] [nvarchar](7) NULL,
+	[CardType] [nvarchar](10) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[CustId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[InvItem](
+	[InvItemId] [int] IDENTITY(1,1) NOT NULL,
+	[InvId] [int] NOT NULL,
+	[ProductId] [int] NOT NULL,
+	[Quantity] [int] NOT NULL,
+	[UnitPrice] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[InvItemId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Invoice](
+	[InvId] [int] IDENTITY(1,1) NOT NULL,
+	[CustId] [int] NOT NULL,
+	[InvDate] [datetime] NULL,
+	[Status] [nvarchar](2) NULL,
+	[ShipAddr1] [nvarchar](80) NULL,
+	[ShipAddr2] [nvarchar](80) NULL,
+	[ShipCity] [nvarchar](80) NULL,
+	[ShipState] [nvarchar](2) NULL,
+	[ShipZip] [nvarchar](20) NULL,
+	[ShipCountry] [nvarchar](20) NULL,
+	[ShipPhone] [nvarchar](20) NULL,
+	[BillAddr1] [nvarchar](80) NULL,
+	[BillAddr2] [nvarchar](80) NULL,
+	[BillCity] [nvarchar](80) NULL,
+	[BillState] [nvarchar](2) NULL,
+	[BillZip] [nvarchar](20) NULL,
+	[BillCountry] [nvarchar](20) NULL,
+	[BillPhone] [nvarchar](20) NULL,
+	[CreditCard] [nvarchar](80) NULL,
+	[ExprDate] [nvarchar](7) NULL,
+	[CardType] [nvarchar](10) NULL,
+	[Courier] [nvarchar](80) NULL,
+	[TotalPrice] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[InvId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Product](
+	[ProductId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [nvarchar](80) NULL,
+	[Category] [nvarchar](10) NULL,
+	[Status] [nvarchar](2) NULL,
+	[Desc] [nvarchar](255) NULL,
+	[ListPrice] [decimal](10, 2) NULL,
+	[UnitCost] [decimal](10, 2) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ProductId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)
+)
+
+GO
+SET IDENTITY_INSERT [dbo].[Customer] ON 
+
+GO
+INSERT [dbo].[Customer] ([CustId], [FirstName], [LastName], [Status], [Email], [Addr1], [Addr2], [City], [State], [Zip], [Country], [Phone], [CreditCard], [ExprDate], [CardType]) VALUES (1, N'Joe', N'Smith', N'E', N'joe@joesmith.com', N'123 Main St', NULL, N'Baton Rouge', N'LA', N'70806', N'USA', N'(987) 234-4556', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Customer] ([CustId], [FirstName], [LastName], [Status], [Email], [Addr1], [Addr2], [City], [State], [Zip], [Country], [Phone], [CreditCard], [ExprDate], [CardType]) VALUES (2, N'Jane', N'Rogers', N'N', N'jane@janerogers.com', N'456 South Lane', NULL, N'Baton Rouge', N'LA', N'70809', N'USA', N'(555) 555-5555', NULL, NULL, NULL)
+GO
+INSERT [dbo].[Customer] ([CustId], [FirstName], [LastName], [Status], [Email], [Addr1], [Addr2], [City], [State], [Zip], [Country], [Phone], [CreditCard], [ExprDate], [CardType]) VALUES (3, N'Sally', N'Williams', N'N', N'sally@sallys.com', N'23444 East Blvd', NULL, N'St. Francisville', N'LA', N'70775', N'USA', N'(225) 234-7890', NULL, NULL, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[Customer] OFF
+GO
+SET IDENTITY_INSERT [dbo].[InvItem] ON 
+
+GO
+INSERT [dbo].[InvItem] ([InvItemId], [InvId], [ProductId], [Quantity], [UnitPrice]) VALUES (1, 1, 1, 1, CAST(25.99 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[InvItem] ([InvItemId], [InvId], [ProductId], [Quantity], [UnitPrice]) VALUES (2, 2, 9, 2, CAST(10.49 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[InvItem] ([InvItemId], [InvId], [ProductId], [Quantity], [UnitPrice]) VALUES (3, 2, 6, 1, CAST(2.99 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[InvItem] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Invoice] ON 
+
+GO
+INSERT [dbo].[Invoice] ([InvId], [CustId], [InvDate], [Status], [ShipAddr1], [ShipAddr2], [ShipCity], [ShipState], [ShipZip], [ShipCountry], [ShipPhone], [BillAddr1], [BillAddr2], [BillCity], [BillState], [BillZip], [BillCountry], [BillPhone], [CreditCard], [ExprDate], [CardType], [Courier], [TotalPrice]) VALUES (1, 1, CAST(0x0000A47200000000 AS DateTime), N'C', N'123 Main St', NULL, N'Baton Rouge', N'LA', N'70806', N'USA', N'(987) 234-4556', N'123 Main St', NULL, N'Baton Rouge', N'LA', N'70806', N'USA', N'(987) 234-4556', NULL, NULL, NULL, N'none', CAST(28.33 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Invoice] ([InvId], [CustId], [InvDate], [Status], [ShipAddr1], [ShipAddr2], [ShipCity], [ShipState], [ShipZip], [ShipCountry], [ShipPhone], [BillAddr1], [BillAddr2], [BillCity], [BillState], [BillZip], [BillCountry], [BillPhone], [CreditCard], [ExprDate], [CardType], [Courier], [TotalPrice]) VALUES (2, 2, CAST(0x0000A47200000000 AS DateTime), N'C', N'456 South Lane', NULL, N'Baton Rouge', N'LA', N'70809', N'USA', N'(555) 555-5555', N'456 South Lane', NULL, N'Baton Rouge', N'LA', N'70809', N'USA', N'(555) 555-5555', NULL, NULL, NULL, N'none', CAST(26.14 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[Invoice] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Product] ON 
+
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (1, N'Fleece Dog Bed', N'DOG-BED', N'A', N'Fleece Bolster Pet Bed is constructed from ultra-soft synthetic sheepskin and comes in (7) sizes to fit most wire crates, pet carriers, and dog houses', CAST(25.99 AS Decimal(10, 2)), CAST(12.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (2, N'Elevated Dog Bed', N'DOG-BED', N'A', N'The sturdy Pipe Dreams frame bed keeps dogs above hard, cold or uncomfortable ground, providing support thats particularly beneficial to arthritic, older or post-surgical dogs.', CAST(44.99 AS Decimal(10, 2)), CAST(22.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (3, N'Foam Pet Bed', N'DOG-BED', N'A', N'Perfect for senior dogs, dogs with joint problems, or who prefer an elevated sleeping space, the Cozy Foam Sofa features thick orthopedic memory foam base that will never bottom out', CAST(84.99 AS Decimal(10, 2)), CAST(42.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (4, N'Nature Nap Dog Bed', N'DOG-BED', N'O', N'Eco-friendly, the West Paw Dog Crate Mats are made with a super-soft recycled plastic fiber batting', CAST(23.49 AS Decimal(10, 2)), CAST(11.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (5, N'Suede Dog Bed', N'DOG-BED', N'A', N'The Majestic Bagel Dog Bed is a micro suede bolster bed that is sure to become your dogs favorite place to snooze.', CAST(57.49 AS Decimal(10, 2)), CAST(26.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (6, N'Stainless Steel Bowl', N'DOG-FEED', N'A', NULL, CAST(2.99 AS Decimal(10, 2)), CAST(1.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (7, N'Food Storage Containers', N'DOG-FEED', N'A', N'Airtight food storage container and food scoop combo', CAST(16.49 AS Decimal(10, 2)), CAST(8.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (8, N'Hook-on Pails', N'DOG-FEED', N'A', N'Flat-sided hook on feeding ails', CAST(4.99 AS Decimal(10, 2)), CAST(2.50 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (9, N'High Prarie Dog Food', N'DOG-FEED', N'A', N'Taste of the wild High Prarie Dry Dog Food', CAST(10.49 AS Decimal(10, 2)), CAST(5.80 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (10, N'Chicken Dog Food', N'DOG-FEED', N'A', N'Blue Buffalo Life Protect Chicken Fresh Dog Food', CAST(29.99 AS Decimal(10, 2)), CAST(15.00 AS Decimal(10, 2)))
+GO
+INSERT [dbo].[Product] ([ProductId], [Name], [Category], [Status], [Desc], [ListPrice], [UnitCost]) VALUES (11, N'Dog Chews', N'DOG-FEED', N'A', N'Chewys Dog Treats', CAST(28.99 AS Decimal(10, 2)), CAST(14.00 AS Decimal(10, 2)))
+GO
+SET IDENTITY_INSERT [dbo].[Product] OFF
+GO
+ALTER TABLE [dbo].[InvItem]  WITH CHECK ADD  CONSTRAINT [FK_InvItem_ToInvoice] FOREIGN KEY([InvId])
+REFERENCES [dbo].[Invoice] ([InvId])
+GO
+ALTER TABLE [dbo].[InvItem] CHECK CONSTRAINT [FK_InvItem_ToInvoice]
+GO
+ALTER TABLE [dbo].[InvItem]  WITH CHECK ADD  CONSTRAINT [FK_InvItem_ToProduct] FOREIGN KEY([ProductId])
+REFERENCES [dbo].[Product] ([ProductId])
+GO
+ALTER TABLE [dbo].[InvItem] CHECK CONSTRAINT [FK_InvItem_ToProduct]
+GO
+ALTER TABLE [dbo].[Invoice]  WITH CHECK ADD  CONSTRAINT [FK_Invoice_ToCustomer] FOREIGN KEY([CustId])
+REFERENCES [dbo].[Customer] ([CustId])
+GO
+ALTER TABLE [dbo].[Invoice] CHECK CONSTRAINT [FK_Invoice_ToCustomer]
+GO
+
